@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JIHYO YOON's Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+</head>
+<body>
+    <!-- Wavy Translucent SVG Background -->
+    <div id="wavy-bg">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+        <div class="milk-overlay"></div>
+    </div>
+
+    <!-- Phone Frame Bezel -->
+    <div id="phone-frame">
+        <!-- The Notch -->
+        <div class="dynamic-island"></div>
+
+        <!-- Phone Built-in Screen Area -->
+        <div id="screen-area">
+            
+            <!-- Phase 1: Interactive Splash -->
+            <div id="splash-screen">
+                <canvas id="physics-canvas"></canvas>
+                <div id="splash-overlay">
+                     <div class="tap-hint">Tap to pop!</div>
+                </div>
+            </div>
+
+            <!-- Phase 2: Intro Typer (3D Bubble Text) -->
+            <div id="intro-container" class="hidden">
+                <h1 id="intro-text" data-text=""></h1>
+            </div>
+
+            <!-- Phase 3: Claymorphism App UI -->
+            <div id="main-ui" class="hidden">
+                <div class="clay-grid">
+                    <!-- Row 1 -->
+                    <!-- Airplane -> Classes -->
+                    <div class="clay-btn default-clay" onclick="openModal('modal-classes')">
+                        <i class="fa-solid fa-plane icon-blue"></i>
+                    </div>
+                    <!-- Up-Down -> Gallery -->
+                    <div class="clay-btn peach-clay" onclick="openModal('modal-gallery')">
+                        <i class="fa-solid fa-up-down icon-red"></i>
+                    </div>
+                    <!-- Wi-Fi -> Academy -->
+                    <div class="clay-btn purple-clay" onclick="openModal('modal-academy')">
+                        <i class="fa-solid fa-wifi icon-green"></i>
+                    </div>
+                    <!-- Bluetooth -> No effect -->
+                    <div class="clay-btn pink-clay">
+                        <i class="fa-brands fa-bluetooth-b icon-yellow"></i>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <!-- Jihyo -> Profile -->
+                    <div class="clay-btn default-clay" onclick="openModal('modal-profile')">
+                        <div class="jihyo-text-icon">jihyo</div>
+                    </div>
+                    <!-- Jihyo's Website -> Website details -->
+                    <div class="clay-btn blue-clay" onclick="openModal('modal-website')">
+                        <i class="fa-solid fa-moon icon-dark"></i>
+                    </div>
+                    <div class="clay-btn default-clay"><i class="fa-solid fa-dog icon-brown"></i></div>
+                    <div class="clay-btn green-clay"><i class="fa-solid fa-message icon-white"></i></div>
+
+                    <!-- Row 3 -->
+                    <div class="clay-btn peach-clay"><i class="fa-solid fa-lightbulb icon-peach"></i></div>
+                    <div class="clay-btn pink-clay"><i class="fa-solid fa-heart icon-red"></i></div>
+                    <div class="clay-btn purple-clay"><i class="fa-solid fa-clock icon-dark"></i></div>
+                    <div class="clay-btn default-clay"><i class="fa-solid fa-camera icon-dark"></i></div>
+
+                    <!-- Row 4 -->
+                    <div class="clay-btn pink-clay"><i class="fa-solid fa-credit-card icon-white"></i></div>
+                    <div class="clay-btn default-clay"><i class="fa-solid fa-compass icon-blue"></i></div>
+                    <div class="clay-btn green-clay"><i class="fa-solid fa-envelope icon-red"></i></div>
+                    <div class="clay-btn peach-clay"><i class="fa-solid fa-pencil icon-red"></i></div>
+                </div>
+            </div>
+
+            <!-- Modals (App Screens) -->
+            <!-- Modal: Classes -->
+            <div id="modal-classes" class="app-modal hidden">
+                <div class="modal-header">
+                    <button class="back-btn" onclick="closeModal('modal-classes')"><i class="fa-solid fa-chevron-left"></i> 뒤로</button>
+                    <h2>내 수업 목록</h2>
+                </div>
+                <div class="modal-content">
+                    <div class="clay-card">
+                        <h3>HTML/CSS 기초</h3>
+                        <p>웹 퍼블리싱의 첫 걸음</p>
+                    </div>
+                    <div class="clay-card">
+                        <h3>JavaScript 심화</h3>
+                        <p>인터랙티브 웹 구현하기</p>
+                    </div>
+                    <div class="clay-card">
+                        <h3>React 기초</h3>
+                        <p>모던 프론트엔드 프레임워크</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Gallery -->
+            <div id="modal-gallery" class="app-modal hidden">
+                <div class="modal-header">
+                    <button class="back-btn" onclick="closeModal('modal-gallery')"><i class="fa-solid fa-chevron-left"></i> 뒤로</button>
+                    <h2>내가 만든 이미지</h2>
+                </div>
+                <div class="modal-content gallery-grid">
+                    <div class="gallery-placeholder clay-card"><i class="fa-regular fa-image"></i></div>
+                    <div class="gallery-placeholder clay-card"><i class="fa-regular fa-image"></i></div>
+                    <div class="gallery-placeholder clay-card"><i class="fa-regular fa-image"></i></div>
+                    <div class="gallery-placeholder clay-card"><i class="fa-regular fa-image"></i></div>
+                    <div class="gallery-placeholder clay-card"><i class="fa-regular fa-image"></i></div>
+                    <div class="gallery-placeholder clay-card"><i class="fa-regular fa-image"></i></div>
+                </div>
+            </div>
+
+            <!-- Modal: Academy -->
+            <div id="modal-academy" class="app-modal hidden">
+                <div class="modal-header">
+                    <button class="back-btn" onclick="closeModal('modal-academy')"><i class="fa-solid fa-chevron-left"></i> 뒤로</button>
+                    <h2>코딩 학원</h2>
+                </div>
+                <div class="modal-content">
+                    <div class="clay-card large-card">
+                        <i class="fa-solid fa-school academy-icon"></i>
+                        <h2 class="academy-name">슈퍼 코딩 아카데미</h2>
+                        <p class="academy-address"><i class="fa-solid fa-location-dot"></i> 서울특별시 강남구 테헤란로 123</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Profile -->
+            <div id="modal-profile" class="app-modal hidden">
+                <div class="modal-header">
+                    <button class="back-btn" onclick="closeModal('modal-profile')"><i class="fa-solid fa-chevron-left"></i> 뒤로</button>
+                    <h2>나에 대해서</h2>
+                </div>
+                <div class="modal-content profile-content">
+                    <div class="profile-avatar clay-card"><i class="fa-solid fa-user"></i></div>
+                    <h2>JIHYO YOON</h2>
+                    <p class="profile-desc">안녕하세요! 디자인과 코딩을 사랑하는 Jihyo 입니다. 3D 효과와 인터랙티브 웹을 만드는 것을 좋아해요.</p>
+                </div>
+            </div>
+
+            <!-- Modal: Website -->
+            <div id="modal-website" class="app-modal hidden">
+                <div class="modal-header">
+                    <button class="back-btn" onclick="closeModal('modal-website')"><i class="fa-solid fa-chevron-left"></i> 뒤로</button>
+                    <h2>내 웹사이트</h2>
+                </div>
+                <div class="modal-content">
+                    <div class="clay-card">
+                        <h3>이 웹사이트는?</h3>
+                        <p>저의 포트폴리오이자, 상상하던 3D 버블과 찰흙(Claymorphism) 느낌을 가득 담아 직접 코딩한 공간입니다!</p>
+                        <i class="fa-solid fa-wand-magic-sparkles magic-icon"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- End screen-area -->
+    </div> <!-- End phone-frame -->
+
+    <script src="script.js"></script>
+</body>
+</html>
