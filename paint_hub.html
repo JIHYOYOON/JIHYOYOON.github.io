@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jihyo's Paint Hub - Info & Classes</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hub-container {
+            width: 800px;
+            max-width: 95vw;
+            padding: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(40px);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.05);
+            margin: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Outfit';
+            font-size: 2.2rem;
+            color: #1a2a3a;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .detail-card {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 30px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .class-box {
+            padding: 20px;
+            background: rgba(135, 206, 235, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(79, 195, 247, 0.2);
+        }
+
+        .class-box h3 {
+            color: #002e4d;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .class-box p {
+            font-size: 0.9rem;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body class="pearl-ocean-view" style="display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto;">
+    <div class="pearl-shimmer"></div>
+    <div id="bead-container"></div>
+    <div class="back-btn-wrapper"><a href="index.html" class="back-btn">Back</a></div>
+
+    <main class="hub-container">
+        <!-- Profile Section -->
+        <section>
+            <h2 class="section-title">Profile</h2>
+            <div class="detail-card">
+                <h1 class="glass-text-3d" style="font-size: 3rem; margin-bottom: 20px;">YOON JIHYO</h1>
+                <ul class="info-list-modern" style="background: transparent;">
+                    <li class="info-item" style="background: transparent;"><b>Name:</b> 윤지효 (YJH)</li>
+                    <li class="info-item" style="background: transparent;"><b>Birthday:</b> 2014년 12월 24일 (말띠)</li>
+                    <li class="info-item" style="background: transparent;"><b>MBTI:</b> INFJ (용의주도한 전략가 & 예술가)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Classes Section -->
+        <section>
+            <h2 class="section-title">My AI Classes</h2>
+            <div class="class-grid">
+                <div class="class-box">
+                    <h3>Gemini Canvas</h3>
+                    <p>창의적인 아이디어를 AI와 함께 시각화하고, 복잡한 개념을 예술적으로 표현하는 혁신적인 학습 과정입니다.</p>
+                </div>
+                <div class="class-box">
+                    <h3>NotebookLM</h3>
+                    <p>방대한 정보를 스마트하게 분석하고 나만의 지식 베이스를 구축하여 효율적으로 학습 능력을 키우는 도구입니다.</p>
+                </div>
+                <div class="class-box">
+                    <h3>Antigravity</h3>
+                    <p>지금 보시는 이 신비롭고 고차원적인 웹사이트를 직접 설계하고 코딩하는 마법 같은 개발 환경입니다.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

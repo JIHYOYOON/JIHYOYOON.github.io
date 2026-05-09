@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaliGalli</title>
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            margin: 0;
+            font-family: 'NanumSquareRound', sans-serif;
+            font-weight: 800;
+            background-color: #dff4f7;
+            overflow: hidden;
+        }
+        
+        .hidden { display: none !important; }
+
+        /* ------------ 메인 메뉴 ------------ */
+        #main-menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            padding-top: 100px;
+            position: absolute;
+            top: 0; left: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        h1 {
+            font-size: 6rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.2); 
+            margin-bottom: 2rem;
+            letter-spacing: 5px;
+            -webkit-text-stroke: 4px #ffffff; 
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 5px 0 rgba(160, 210, 230, 0.7), 0 15px 25px rgba(160, 210, 230, 0.4);
+        }
+        
+        .difficulty-container {
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 20px 40px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px rgba(130, 190, 220, 0.3), inset 0 2px 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .difficulty-label {
+            font-size: 1.8rem;
+            font-weight: 900; 
+            color: #0081bf; 
+            margin: 0 0 15px 0;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 1);
+        }
+
+        .difficulty-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 250px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            outline: none;
+            box-shadow: inset 0 3px 6px rgba(160, 210, 230, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .difficulty-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 1);
+            cursor: pointer;
+            box-shadow: 0 6px 0 rgba(140, 200, 230, 0.8), 0 8px 12px rgba(140, 200, 230, 0.4), inset 0 4px 6px rgba(255, 255, 255, 0.8);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .difficulty-slider::-webkit-slider-thumb:active {
+            transform: translateY(3px) scale(1.05); 
+            box-shadow: 0 3px 0 rgba(140, 200, 230, 0.8), 0 4px 6px rgba(140, 200, 230, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+        }
+
+        .difficulty-steps {
+            display: flex;
+            justify-content: space-between;
+            width: 270px;
+            color: #0081bf; 
+            font-size: 1.25rem;
+            font-weight: 900;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 1);
+        }
+
+        .start-btn {
+            font-size: 2.3rem; 
+            font-weight: 900; 
+            padding: 15px 70px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: #0081bf; 
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            box-shadow: 0 10px 0 rgba(140, 200, 230, 0.9), 0 20px 25px rgba(140, 200, 230, 0.3), inset 0 4px 8px rgba(255, 255, 255, 0.9);
+            transition: all 0.1s ease-in-out;
+            text-transform: uppercase;
+            letter-spacing: 4px; 
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 1); 
+        }
+        .start-btn:active {
+            transform: translateY(10px); 
+            box-shadow: 0 0 0 rgba(140, 200, 230, 0.9), 0 5px 8px rgba(140, 200, 230, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+        }
+
+
+        /* ------------ 게임 내 화면 ------------ */
+        #game-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0; left: 0;
+            opacity: 0; 
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* 가운데 원형 흰색 탁자 */
+        .game-table {
+            position: relative;
+            width: 80vmin; 
+            height: 80vmin;
+            max-width: 650px;
+            max-height: 650px;
+            background: rgba(255, 255, 255, 0.35); 
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 30px 60px rgba(130, 190, 220, 0.4), inset 0 10px 20px rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* HUD 패널 (반투명 맑은 패널) */
+        .hud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 15px 25px;
+            color: #0081bf;
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 1);
+            box-shadow: 0 10px 20px rgba(130, 190, 220, 0.3);
+            z-index: 50;
+        }
+        .ai-hud { top: 20px; right: 20px; }
+        .player-hud { bottom: 20px; right: 20px; }
+
+        /* 메시지 배너 */
+        #msg-banner {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            font-weight: 900;
+            color: #d81b60;
+            text-shadow: 3px 3px 0 #fff, 0 0 15px rgba(255,255,255,0.9);
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* 덱 래퍼 (6시, 12시 덱 및 버려진 덱을 함께 묶어 배치) */
+        .deck-wrapper {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 30px;
+            z-index: 5;
+        }
+        .ai-area { top: 40px; }
+        .player-area { bottom: 40px; }
+        .ai-area .deck { transform: rotate(180deg); }
+
+        /* 카드 덱 공용 디자인 */
+        .deck {
+            position: relative;
+            width: 100px;
+            height: 145px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 
+                -2px -2px 0 #fff, -2px -2px 2px rgba(130, 190, 220, 0.4),
+                -4px -4px 0 #fff, -4px -4px 2px rgba(130, 190, 220, 0.4),
+                -6px -6px 0 #fff, -6px -6px 2px rgba(130, 190, 220, 0.4),
+                -8px -8px 0 #fff, -8px -8px 2px rgba(130, 190, 220, 0.4),
+                -10px -10px 0 #fff, -10px -10px 15px rgba(130, 190, 220, 0.4);
+            border: 2px solid rgba(255, 255, 255, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #dff4f7;
+            background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.7) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.7) 75%, rgba(255, 255, 255, 0.7)), repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.7) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.7) 75%, rgba(255, 255, 255, 0.7));
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        /* 덱 안눌리게(UI 비활성화 반영) */
+        .disabled-deck { cursor: default; opacity: 0.6; }
+
+        .card-logo {
+            background: rgba(255, 255, 255, 0.9);
+            color: #0077b6;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            box-shadow: 0 2px 5px rgba(0, 119, 182, 0.2);
+            text-align: center;
+        }
+
+        /* 버려진 카드(앞면 표시) 공간 - 배경을 비우고 그림자 제거 */
+        .discard-pile {
+            background: transparent;
+            box-shadow: none; border: none; cursor: default;
+        }
+        
+        /* 버려진 카드의 물리적 앞면 요소 */
+        .card-face {
+            width: 100px;
+            height: 145px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 2px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* 과일 이모지 정렬 컨테이너 */
+        .card-fruits {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            width: 85%;
+            height: 100%;
+            gap: 2px;
+            font-size: 1.6rem; /* 카드를 벗어나지 않도록 과일 크기 줄임 */
+            line-height: 1.1;
+        }
+
+        /* 뒤집기 애니메이션 */
+        @keyframes flipInPlayer {
+            0% { transform: translate(-80px, 0px) rotateY(-180deg) scale(0.8); opacity: 0; }
+            100% { transform: translate(0, 0) rotateY(0) scale(1); opacity: 1; }
+        }
+        @keyframes flipInAi {
+            0% { transform: translate(80px, 0px) rotateY(-180deg) scale(0.8); opacity: 0; }
+            100% { transform: translate(0, 0) rotateY(0) scale(1); opacity: 1; }
+        }
+        .flip-anim-player { animation: flipInPlayer 0.3s ease-out forwards; }
+        .flip-anim-ai { animation: flipInAi 0.3s ease-out forwards; }
+
+
+        /* 정중앙 수작업 맑은 하늘색 종 */
+        .bell-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .bell-button {
+            position: absolute;
+            width: 32px;
+            height: 25px;
+            background: #ffffff;
+            border-radius: 12px 12px 0 0;
+            top: 20px;
+            z-index: 2;
+            box-shadow: inset 0 -4px 8px rgba(0,0,0,0.1), 0 -2px 5px rgba(255,255,255,0.8);
+            transition: transform 0.1s;
+        }
+
+        .bell-dome {
+            position: absolute;
+            width: 120px;
+            height: 85px;
+            background: radial-gradient(circle at 35% 25%, #ffffff 0%, #48cae4 40%, #0077b6 100%);
+            border-radius: 120px 120px 20px 20px;
+            bottom: 25px;
+            z-index: 1;
+            box-shadow: 0 15px 25px rgba(0, 119, 182, 0.4), inset -5px -5px 15px rgba(0, 119, 182, 0.6), inset 5px 5px 15px rgba(255,255,255,0.9);
+            border-bottom: 4px solid rgba(0, 119, 182, 0.6);
+        }
+
+        .bell-container:active .bell-button {
+            transform: translateY(12px);
+        }
+
+        /* ------------ 가위바위보 모달 ------------ */
+        #rps-modal {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 3px solid #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            z-index: 200;
+            box-shadow: 0 20px 50px rgba(0, 119, 182, 0.3);
+        }
+        #rps-modal h2 { 
+            color: #005b8f; margin-top: 0; text-shadow: 1px 1px 0 #fff; 
+            font-size: 2.2rem; margin-bottom: 20px;
+        }
+        .rps-buttons { display: flex; gap: 20px; justify-content: center; }
+        .rps-btn {
+            font-size: 4rem; 
+            background: #fff; 
+            border: 3px solid #0081bf; 
+            border-radius: 20px; 
+            padding: 10px 20px;
+            cursor: pointer; 
+            transition: all 0.2s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .rps-btn:hover { transform: scale(1.1); background: #e0fbfc; }
+        .rps-btn:active { transform: scale(1.0); }
+
+        /* ------------ 게임 오버 모달 ------------ */
+        #game-over-modal {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 500;
+            opacity: 0; 
+            transition: opacity 0.5s ease;
+        }
+        #game-over-text {
+            font-size: 8rem;
+            color: rgba(255, 255, 255, 0.2);
+            -webkit-text-stroke: 4px #ffffff;
+            letter-spacing: 10px;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 5px 0 rgba(160, 210, 230, 0.7), 0 15px 25px rgba(160, 210, 230, 0.4);
+            margin: 0 0 2rem 0;
+            text-align: center;
+            font-weight: 900;
+        }
+        #game-over-winner {
+            font-size: 2.5rem;
+            color: #005b8f;
+            font-weight: 900;
+            margin-bottom: 3rem;
+            text-shadow: 1px 1px 3px rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 10px 30px;
+            border-radius: 20px;
+        }
+        .restart-btn {
+            font-size: 2rem;
+            font-weight: 900;
+            padding: 15px 50px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: #0081bf;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            box-shadow: 0 10px 0 rgba(140, 200, 230, 0.9), 0 20px 25px rgba(140, 200, 230, 0.3), inset 0 4px 8px rgba(255, 255, 255, 0.9);
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+        .restart-btn:hover {
+            background: rgba(255, 255, 255, 0.45);
+            transform: translateY(4px);
+            box-shadow: 0 6px 0 rgba(140, 200, 230, 0.9), 0 12px 15px rgba(140, 200, 230, 0.3), inset 0 3px 6px rgba(255, 255, 255, 0.9);
+        }
+        .restart-btn:active {
+            transform: translateY(10px);
+            box-shadow: 0 0 0 rgba(140, 200, 230, 0.9), 0 5px 8px rgba(140, 200, 230, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ------------ 1. 메인 메뉴 ------------ -->
+    <div id="main-menu">
+        <h1>할리갈리</h1>
+        
+        <div class="difficulty-container">
+            <p class="difficulty-label">난이도: <span id="diff-text" style="color: #0081bf;">보통</span></p>
+            <input type="range" min="1" max="3" value="2" class="difficulty-slider" id="diff-slider">
+            <div class="difficulty-steps">
+                <span>쉬움</span>
+                <span>보통</span>
+                <span>어려움</span>
+            </div>
+        </div>
+
+        <button class="start-btn">START</button>
+    </div>
+
+
+    <!-- ------------ 2. 게임 화면 ------------ -->
+    <div id="game-screen" class="hidden">
+        
+        <div id="msg-banner"></div>
+        
+        <!-- HUD 창 (반투명. 글씨 돋보이게) -->
+        <div class="hud ai-hud">AI 남은 카드: <span id="ai-count">50</span></div>
+        <div class="hud player-hud">나의 남은 카드: <span id="player-count">50</span></div>
+
+        <!-- 게임 원형 탁자 -->
+        <div class="game-table">
+            
+            <!-- 상대방 영역 (12시 방향) -->
+            <div class="deck-wrapper ai-area">
+                <!-- AI Discard Pile -->
+                <div class="deck discard-pile" id="ai-discard"></div>
+                <!-- AI Deck -->
+                <div class="deck" id="ai-deck-container">
+                    <div class="card-logo">Hali<br>Galli</div>
+                </div>
+            </div>
+
+            <!-- 정중앙 하늘색 종 -->
+            <div class="bell-container" id="bell">
+                <div class="bell-button"></div>
+                <div class="bell-dome"></div>
+            </div>
+
+            <!-- 플레이어 영역 (6시 방향) -->
+            <div class="deck-wrapper player-area">
+                <!-- Player Deck -->
+                <div class="deck player-deck" id="player-deck-container">
+                    <div class="card-logo">Hali<br>Galli</div>
+                </div>
+                <!-- Player Discard Pile -->
+                <div class="deck discard-pile" id="player-discard"></div>
+            </div>
+
+        </div>
+
+        <!-- 가위바위보 모달 -->
+        <div id="rps-modal" class="hidden">
+            <h2>동시 타격! 가위바위보!</h2>
+            <div class="rps-buttons">
+                <button class="rps-btn" data-choice="rock">✊</button>
+                <button class="rps-btn" data-choice="paper">🖐</button>
+                <button class="rps-btn" data-choice="scissors">✌️</button>
+            </div>
+        </div>
+
+        <!-- 게임 오버 모달 -->
+        <div id="game-over-modal" class="hidden">
+            <h2 id="game-over-text">GAME OVER</h2>
+            <div id="game-over-winner">플레이어 승리!</div>
+            <button class="restart-btn" id="restart-btn">처음으로 돌아가기</button>
+        </div>
+    </div>
+
+
+    <!-- ------------ 3. 게임 로직 스크립트 ------------ -->
+    <script>
+        // 난이도 UI
+        const slider = document.getElementById('diff-slider');
+        const diffText = document.getElementById('diff-text');
+        const diffLevels = { '1': '쉬움', '2': '보통', '3': '어려움' };
+        let currentDifficulty = 2;
+
+        slider.addEventListener('input', function() {
+            currentDifficulty = parseInt(this.value);
+            diffText.textContent = diffLevels[this.value];
+        });
+
+        // 전환 로직
+        const startBtn = document.querySelector('.start-btn');
+        const mainMenu = document.getElementById('main-menu');
+        const gameScreen = document.getElementById('game-screen');
+
+        startBtn.addEventListener('click', () => {
+            mainMenu.style.opacity = '0';
+            setTimeout(() => {
+                mainMenu.classList.add('hidden');
+                gameScreen.classList.remove('hidden');
+                setTimeout(() => { gameScreen.style.opacity = '1'; }, 50);
+                initGame(); // 화면 뜨면서 로직 시작
+            }, 300);
+        });
+
+        // ================= 핵심 게임 로직 =================
+        const FRUITS = ['🍓', '🍌', '🍋', '🍇']; // 요청하신 텍스트 이모지 사용
+        let playerDeck = [];
+        let aiDeck = [];
+        let playerDiscard = [];
+        let aiDiscard = [];
+        
+        let currentTurn = 'player'; // 플레이어부터 시작
+        let gameActive = false;
+        let waitingForRps = false;
+
+        // 종 타격 판정 변수
+        let validBellTime = 0;
+        let aiBellTimeout = null;
+        let aiReactionTime = 0;
+        let aiTurnTimeout = null;
+
+        function initGame() {
+            let deck = [];
+            for(let i=0; i<100; i++) {
+                let fruit = FRUITS[Math.floor(Math.random() * FRUITS.length)];
+                let count = Math.floor(Math.random() * 5) + 1; // 1~5
+                deck.push({ fruit, count });
+            }
+            deck.sort(() => Math.random() - 0.5); // 셔플
+            playerDeck = deck.slice(0, 50);
+            aiDeck = deck.slice(50, 100);
+            playerDiscard = [];
+            aiDiscard = [];
+            
+            currentTurn = 'player';
+            gameActive = true;
+            waitingForRps = false;
+            
+            renderDiscard('player');
+            renderDiscard('ai');
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('player-count').textContent = playerDeck.length;
+            document.getElementById('ai-count').textContent = aiDeck.length;
+            
+            // 승패 판정
+            if (gameActive && (playerDeck.length === 0 || aiDeck.length === 0)) {
+                endGame();
+                return;
+            }
+
+            // 덱 비활성화 시각적 표현
+            const pDeck = document.getElementById('player-deck-container');
+            if(currentTurn === 'player' && !waitingForRps && playerDeck.length > 0) {
+                pDeck.classList.remove('disabled-deck');
+            } else {
+                pDeck.classList.add('disabled-deck');
+            }
+        }
+
+        function renderDiscard(who) {
+            const pile = who === 'player' ? playerDiscard : aiDiscard;
+            const el = document.getElementById(who + '-discard');
+            if (pile.length === 0) {
+                el.innerHTML = ''; 
+            } else {
+                const card = pile[pile.length - 1];
+                let icons = '';
+                for(let i=0; i<card.count; i++) icons += `<span>${card.fruit}</span>`;
+                // CSS 트랜지션을 위한 클래스 부여
+                el.innerHTML = `<div class="card-face flip-anim-${who}"><div class="card-fruits">${icons}</div></div>`;
+            }
+        }
+
+        // ================= 카드 뒤집기 로직 =================
+        document.getElementById('player-deck-container').addEventListener('click', () => {
+            if(gameActive && !waitingForRps && currentTurn === 'player' && playerDeck.length > 0) {
+                flipCard('player');
+            }
+        });
+
+        function flipCard(who) {
+            // 카드 이동 및 렌더링
+            if (who === 'player') {
+                playerDiscard.push(playerDeck.pop());
+                renderDiscard('player');
+            } else {
+                aiDiscard.push(aiDeck.pop());
+                renderDiscard('ai');
+            }
+            
+            // 턴 넘기기
+            currentTurn = who === 'player' ? 'ai' : 'player';
+            
+            // 기존 종 반응 취소
+            clearTimeout(aiBellTimeout);
+            clearTimeout(aiTurnTimeout);
+            
+            updateUI();
+            checkBellEvent(); // 타격 조건 충족했는지 체크
+            
+            // 만약 새로 턴을 받은 것이 AI 라면, 알아서 한 장 뒤집기
+            if(currentTurn === 'ai' && gameActive && !waitingForRps && aiDeck.length > 0) {
+                // AI 난이도에 따라 생각하는 시간 (플레이어가 과일을 셀 여유를 충분히 주도록 지연 시간 대폭 증가)
+                let delay = currentDifficulty === 3 ? 1000 : (currentDifficulty === 2 ? 1500 : 2200);
+                aiTurnTimeout = setTimeout(() => {
+                    const sums = getFruitSums();
+                    // AI턴일때 벨을 쳐야하면 뒤집지 않음 (checkBellEvent에서 이미 타임아웃 돌고있음)
+                    if(!Object.values(sums).includes(5)) {
+                        flipCard('ai');
+                    }
+                }, delay + Math.random() * 500); // 자연스럽게 랜덤 지연
+            }
+        }
+
+        // ================= 종 누르기(판정) 로직 =================
+        function getFruitSums() {
+            const sums = { '🍓':0, '🍌':0, '🍋':0, '🍇':0 };
+            if (playerDiscard.length > 0) sums[playerDiscard[playerDiscard.length - 1].fruit] += playerDiscard[playerDiscard.length - 1].count;
+            if (aiDiscard.length > 0) sums[aiDiscard[aiDiscard.length - 1].fruit] += aiDiscard[aiDiscard.length - 1].count;
+            return sums;
+        }
+
+        function checkBellEvent() {
+            clearTimeout(aiBellTimeout);
+            const sums = getFruitSums();
+            
+            if (Object.values(sums).includes(5)) {
+                validBellTime = Date.now();
+                // 5개가 맞을 때 인간 플레이어가 판단하고 종을 칠 "시간"을 넉넉히 제공
+                // 어려움(약 0.6~1초), 보통(약 1.2~1.7초), 쉬움(약 2~2.5초) 뒤에 칩니다.
+                let baseReaction = currentDifficulty === 3 ? 600 : (currentDifficulty === 2 ? 1200 : 2000);
+                aiReactionTime = baseReaction + Math.random() * 500;
+                
+                aiBellTimeout = setTimeout(() => {
+                    if (gameActive && !waitingForRps) {
+                        showMsg("AI가 가져갑니다!");
+                        winCards('ai');
+                    }
+                }, aiReactionTime);
+            }
+        }
+
+        // 플레이어가 종 클릭 시
+        document.getElementById('bell').addEventListener('click', () => {
+            if (!gameActive || waitingForRps) return;
+            const sums = getFruitSums();
+            
+            if (Object.values(sums).includes(5)) {
+                // 정답!
+                clearTimeout(aiTurnTimeout);
+                clearTimeout(aiBellTimeout);
+                
+                let timeDiff = Date.now() - validBellTime;
+                
+                // AI 반응속도와 거의 비슷하게(+/- 150ms) 눌렀으면 동시(가위바위보) 판정
+                if (Math.abs(timeDiff - aiReactionTime) < 150) {
+                    triggerRPS();
+                } else {
+                    showMsg("성공!");
+                    winCards('player');
+                }
+            } else {
+                // 오답 (패널티 작동: 덱 하단 또는 상대에게)
+                showMsg("실수! (카드 -1장)");
+                if (playerDeck.length > 0) aiDeck.unshift(playerDeck.pop());
+                updateUI();
+            }
+        });
+
+        // 승리자가 카드 수거
+        function winCards(winner) {
+            gameActive = false; // 수거 중 클릭 방지
+            setTimeout(() => {
+                const pool = [...playerDiscard, ...aiDiscard];
+                // 딴 카드를 승리자 덱의 밑으로
+                if (winner === 'player') playerDeck.unshift(...pool);
+                else aiDeck.unshift(...pool);
+                
+                playerDiscard = [];
+                aiDiscard = [];
+                
+                renderDiscard('player');
+                renderDiscard('ai');
+                
+                // 승리자부터 턴 시작
+                currentTurn = winner;
+                updateUI();
+                gameActive = true;
+                
+                // AI가 이겼을 경우 바로 턴 개시
+                if (currentTurn === 'ai' && aiDeck.length > 0) {
+                    setTimeout(() => flipCard('ai'), 1000);
+                }
+            }, 1000); // 1초간 결과 확인 대기
+        }
+
+        // ================= 가위바위보 미니게임 =================
+        function triggerRPS() {
+            waitingForRps = true;
+            document.getElementById('rps-modal').classList.remove('hidden');
+        }
+
+        document.querySelectorAll('.rps-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const playerChoice = e.target.getAttribute('data-choice');
+                resolveRPS(playerChoice);
+            });
+        });
+
+        function resolveRPS(playerChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const aiChoice = choices[Math.floor(Math.random() * 3)];
+            document.getElementById('rps-modal').classList.add('hidden');
+            
+            const emojiMap = { 'rock':'✊', 'paper':'🖐', 'scissors':'✌️' };
+            
+            if (playerChoice === aiChoice) {
+                showMsg(`비겼습니다! (${emojiMap[aiChoice]})`);
+                setTimeout(triggerRPS, 1000);
+            } else if (
+                (playerChoice === 'rock' && aiChoice === 'scissors') ||
+                (playerChoice === 'paper' && aiChoice === 'rock') ||
+                (playerChoice === 'scissors' && aiChoice === 'paper')
+            ) {
+                showMsg(`승리! (AI: ${emojiMap[aiChoice]})`);
+                waitingForRps = false;
+                winCards('player');
+            } else {
+                showMsg(`패배 (AI: ${emojiMap[aiChoice]})`);
+                waitingForRps = false;
+                winCards('ai');
+            }
+        }
+
+        function showMsg(txt) {
+            const el = document.getElementById('msg-banner');
+            el.textContent = txt;
+            el.style.opacity = '1';
+            setTimeout(() => { el.style.opacity = '0'; }, 1200);
+        }
+
+        // ================= 종료 로직 =================
+        function endGame() {
+            gameActive = false;
+            clearTimeout(aiBellTimeout);
+            clearTimeout(aiTurnTimeout);
+            
+            const winner = playerDeck.length > 0 ? "플레이어" : "AI";
+            document.getElementById('game-over-winner').textContent = `${winner} 승리!`;
+            
+            const overModal = document.getElementById('game-over-modal');
+            overModal.classList.remove('hidden');
+            setTimeout(() => { overModal.style.opacity = '1'; }, 50);
+        }
+
+        document.getElementById('restart-btn').addEventListener('click', () => {
+            const overModal = document.getElementById('game-over-modal');
+            const gameScreen = document.getElementById('game-screen');
+            const mainMenu = document.getElementById('main-menu');
+
+            overModal.style.opacity = '0';
+            gameScreen.style.opacity = '0';
+
+            setTimeout(() => {
+                overModal.classList.add('hidden');
+                gameScreen.classList.add('hidden');
+                
+                mainMenu.classList.remove('hidden');
+                setTimeout(() => { mainMenu.style.opacity = '1'; }, 50);
+            }, 500);
+        });
+    </script>
+</body>
+</html>

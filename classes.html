@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jihyo Classes - Hologram Network</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .orb-info {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: 0.5s;
+            pointer-events: none;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #1a2a3a;
+            margin-top: 20px;
+        }
+
+        .linked-orb:hover .orb-info {
+            opacity: 1;
+            transform: translateX(-50%) translateY(10px);
+        }
+    </style>
+</head>
+<body class="pearl-ocean-view">
+    <div class="scanning-gradient"></div>
+    <div id="bead-container"></div>
+    <div class="back-btn-wrapper"><a href="index.html" class="back-btn">Back</a></div>
+
+    <h1 class="profile-name" style="margin-bottom: 80px; font-size: 2.5rem;">나의 AI 수업</h1>
+
+    <div class="orb-network">
+        <!-- Orb connections will be rendered in script for precision -->
+        <div class="linked-orb">
+            <span style="font-size: 0.9rem;">Gemini</span>
+            <div class="orb-beam"></div>
+            <div class="orb-info">창의적인 아이디어를 시각화하는 지능형 캔버스</div>
+        </div>
+        <div class="linked-orb">
+            <span style="font-size: 0.9rem;">NotebookLM</span>
+            <div class="orb-beam"></div>
+            <div class="orb-info">스마트하게 정보를 정리하고 학습하는 AI 도구</div>
+        </div>
+        <div class="linked-orb">
+            <span style="font-size: 0.9rem;">Antigravity</span>
+            <div class="orb-beam"></div>
+            <div class="orb-info">지금 이 멋진 웹사이트를 만드는 마법의 환경</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Simple orb connection visualization
+        const network = document.querySelector('.orb-network');
+        const orbs = document.querySelectorAll('.linked-orb');
+        for(let i=0; i<orbs.length-1; i++) {
+            const line = document.createElement('div');
+            line.className = 'orb-line';
+            line.style.width = '40px';
+            line.style.left = `calc(${i*140 + 140 + i*40}px)`;
+            network.appendChild(line);
+        }
+    </script>
+</body>
+</html>

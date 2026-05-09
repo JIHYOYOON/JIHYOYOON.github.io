@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jihyo Hobbies - Transparent Canvas</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .canvas-card {
+            width: 700px;
+            max-width: 90vw;
+            padding: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(40px);
+            border-radius: 40px;
+            position: relative;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+            animation: buoyFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes buoyFloat {
+            0%, 100% { transform: translateY(0) rotate(1deg); }
+            50% { transform: translateY(-20px) rotate(-1.5deg); }
+        }
+
+        /* Ice Texture Overlay */
+        .ice-texture {
+            position: absolute;
+            top: 0; left: 0; width: 40%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+            border-radius: 40px 0 0 40px;
+            mask-image: radial-gradient(circle, black, transparent);
+            opacity: 0.5;
+        }
+
+        /* Ink Dispersion Overlay */
+        .ink-dispersion {
+            position: absolute;
+            bottom: 0; right: 0; width: 50%; height: 50%;
+            background: radial-gradient(circle, rgba(79, 195, 247, 0.2), transparent 70%);
+            filter: blur(30px);
+            pointer-events: none;
+        }
+
+        /* Sketch Lines Overlay */
+        .sketch-lines {
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(192, 192, 192, 0.1);
+            margin: 20px;
+            border-radius: 30px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="pearl-ocean-view">
+    <div class="pearl-shimmer"></div>
+    <div id="bead-container"></div>
+    <div class="back-btn-wrapper"><a href="index.html" class="back-btn">Back</a></div>
+
+    <main class="canvas-card">
+        <div class="ice-texture"></div>
+        <div class="ink-dispersion"></div>
+        <div class="sketch-lines"></div>
+
+        <h1 class="profile-name" style="margin-bottom: 50px;">나의 취미</h1>
+        
+        <div style="display: flex; gap: 40px; position: relative; z-index: 5;">
+            <div style="flex: 1; text-align: center;">
+                <h2 style="font-size: 1.5rem; color: #4fc3f7;">유리 (Glass)</h2>
+                <p style="font-size: 0.9rem; opacity: 0.7;">깨진 얼음처럼 영롱한 빛</p>
+            </div>
+            <div style="flex: 1; text-align: center;">
+                <h2 style="font-size: 1.5rem; color: #4fc3f7;">물감 (Paint)</h2>
+                <p style="font-size: 0.9rem; opacity: 0.7;">유리 속으로 번지는 아쿠아 잉크</p>
+            </div>
+            <div style="flex: 1; text-align: center;">
+                <h2 style="font-size: 1.5rem; color: #c0c0c0;">그림 (Drawing)</h2>
+                <p style="font-size: 0.9rem; opacity: 0.7;">은색 선으로 그려진 스케치</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
