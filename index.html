@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,11 @@
             --header-h: 80px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         html {
             scroll-snap-type: y mandatory;
@@ -58,7 +63,13 @@
             z-index: 0;
         }
 
-        #bead-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        #bead-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         .iridescent-bead {
             position: absolute;
             border-radius: 50%;
@@ -94,11 +105,25 @@
         }
 
         @keyframes headerBob {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
         }
 
-        .back-btn-wrapper { position: fixed; top: 40px; left: 40px; z-index: 1000; display: none; }
+        .back-btn-wrapper {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+            display: none;
+        }
+
         .back-btn {
             padding: 10px 25px;
             font-size: 0.9rem;
@@ -114,12 +139,28 @@
         }
 
         /* Home Hero & Canvas */
-        .hero-container { height: 100vh; scroll-snap-align: start; }
-        .paint-canvas-section { height: 100vh; scroll-snap-align: start; }
+        .hero-container {
+            height: 100vh;
+            scroll-snap-align: start;
+        }
 
-        .image-board-wrapper { position: relative; opacity: 0; transform: scale(0.95); transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .image-board-wrapper.visible { opacity: 1; transform: scale(1); }
-        
+        .paint-canvas-section {
+            height: 100vh;
+            scroll-snap-align: start;
+        }
+
+        .image-board-wrapper {
+            position: relative;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .image-board-wrapper.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
         .image-board {
             width: 600px;
             max-width: 90vw;
@@ -135,63 +176,421 @@
             backdrop-filter: blur(50px);
         }
 
-        .hero-name-container { position: absolute; top: -120px; left: 50%; transform: translateX(-50%); width: 100%; text-align: center; z-index: 1; }
-        .hero-main-title { font-family: 'Outfit'; font-size: 5rem; font-weight: 800; color: rgba(255, 255, 255, 0.2); letter-spacing: 0.15em; text-transform: uppercase; -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3); pointer-events: none; }
+        .hero-name-container {
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
+            z-index: 1;
+        }
 
-        .overlay-buttons { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; gap: 20px; width: 90%; justify-content: center; z-index: 10; }
+        .hero-main-title {
+            font-family: 'Outfit';
+            font-size: 5rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+        }
+
+        .overlay-buttons {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 20px;
+            width: 90%;
+            justify-content: center;
+            z-index: 10;
+        }
+
         .convex-glass-btn {
-            flex: 1; max-width: 160px; padding: 20px 0; font-family: 'Inter'; font-size: 1.1rem; font-weight: 600; color: #444; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.4); cursor: pointer; transition: 0.4s;
-            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(15px);
+            flex: 1;
+            max-width: 160px;
+            padding: 20px 0;
+            font-family: 'Inter';
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #444;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: 0.4s;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
             box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.1), -5px -5px 20px rgba(255, 255, 255, 0.8), inset 5px 5px 15px rgba(255, 255, 255, 0.6);
         }
-        .convex-glass-btn:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.3); }
+
+        .convex-glass-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.3);
+        }
 
         /* Paint Canvas */
-        .translucent-canvas { width: 800px; height: 600px; max-width: 90vw; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(20px); border-radius: 60px; border: 2px solid rgba(255, 255, 255, 0.5); box-shadow: 0 40px 100px rgba(0, 0, 0, 0.05); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 40px; padding: 60px; position: relative; }
-        .paint-title { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); font-family: 'Outfit'; font-size: 2rem; color: #4fc3f7; opacity: 0.8; }
-        .paint-blob { width: 100px; height: 100px; border-radius: 50%; cursor: pointer; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255, 255, 255, 0.6); background: rgba(129, 212, 250, 0.4); backdrop-filter: blur(5px); box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.05), inset 10px 10px 20px rgba(255, 255, 255, 0.4); position: relative; }
-        .paint-blob:hover { transform: scale(1.2) translateY(-10px); background: rgba(129, 212, 250, 0.6); }
+        .translucent-canvas {
+            width: 800px;
+            height: 600px;
+            max-width: 90vw;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            border-radius: 60px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            padding: 60px;
+            position: relative;
+        }
+
+        .paint-title {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Outfit';
+            font-size: 2rem;
+            color: #4fc3f7;
+            opacity: 0.8;
+        }
+
+        .blob-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .blob-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a2a3a;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+            letter-spacing: 1px;
+        }
+
+        .paint-blob {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(129, 212, 250, 0.4);
+            backdrop-filter: blur(5px);
+            box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.05), inset 10px 10px 20px rgba(255, 255, 255, 0.4);
+            position: relative;
+        }
+
+        .paint-blob:hover {
+            transform: scale(1.2) translateY(-10px);
+            background: rgba(129, 212, 250, 0.6);
+        }
+
+        /* Glowing AI Classes */
+        .glowing-class-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .glowing-box {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(79, 195, 247, 0.5);
+            box-shadow: 0 0 20px rgba(79, 195, 247, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            transition: 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        .glowing-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(79, 195, 247, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .glowing-title {
+            font-size: 1.8rem;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(79, 195, 247, 1);
+            margin-bottom: 15px;
+        }
+
+        .glowing-box p {
+            font-size: 1.1rem;
+            color: #1a2a3a;
+            font-weight: 600;
+            line-height: 1.6;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+        }
 
         /* PAGE SPECIFIC STYLES */
         /* Info */
-        .hexagon-card { width: 500px; height: 550px; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(50px); border: 1px solid rgba(255, 255, 255, 0.4); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; position: relative; }
-        .glass-text-3d { font-family: 'Outfit'; font-size: 3.5rem; font-weight: 800; color: rgba(255, 255, 255, 0.95); text-shadow: 0 1px 0 #ccc, 0 5px 10px rgba(0,0,0,.25), 0 20px 20px rgba(0,0,0,.15); }
-        .butterfly { position: absolute; font-size: 1.5rem; color: #4fc3f7; animation: flutter 6s ease-in-out infinite; pointer-events: none; }
-        @keyframes flutter { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -20px) rotate(15deg); } }
+        .hexagon-card {
+            width: 500px;
+            height: 550px;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(50px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            position: relative;
+        }
+
+        .glass-text-3d {
+            font-family: 'Outfit';
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 1px 0 #ccc, 0 5px 10px rgba(0, 0, 0, .25), 0 20px 20px rgba(0, 0, 0, .15);
+        }
+
+        .butterfly {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #4fc3f7;
+            animation: flutter 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes flutter {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(20px, -20px) rotate(15deg);
+            }
+        }
 
         /* Hobbies */
-        .canvas-card { width: 700px; max-width: 90vw; padding: 80px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(40px); border-radius: 40px; position: relative; animation: buoyFloat 8s ease-in-out infinite; }
-        @keyframes buoyFloat { 0%, 100% { transform: translateY(0) rotate(1deg); } 50% { transform: translateY(-20px) rotate(-1.5deg); } }
-        .ice-texture { position: absolute; top: 0; left: 0; width: 40%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%); border-radius: 40px 0 0 40px; opacity: 0.5; }
-        .ink-dispersion { position: absolute; bottom: 0; right: 0; width: 50%; height: 50%; background: radial-gradient(circle, rgba(79, 195, 247, 0.2), transparent 70%); filter: blur(30px); pointer-events: none; }
+        .canvas-card {
+            width: 700px;
+            max-width: 90vw;
+            padding: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(40px);
+            border-radius: 40px;
+            position: relative;
+            animation: buoyFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes buoyFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(1deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(-1.5deg);
+            }
+        }
+
+        .ice-texture {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+            border-radius: 40px 0 0 40px;
+            opacity: 0.5;
+        }
+
+        .ink-dispersion {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle, rgba(79, 195, 247, 0.2), transparent 70%);
+            filter: blur(30px);
+            pointer-events: none;
+        }
 
         /* Classes */
-        .orb-network { display: flex; gap: 40px; position: relative; z-index: 10; }
-        .linked-orb { width: 140px; height: 140px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.5s; position: relative; }
-        .linked-orb:hover { transform: scale(1.1); box-shadow: 0 0 50px rgba(79, 195, 247, 0.6); }
-        .orb-info { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: 200px; padding: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 15px; opacity: 0; transition: 0.5s; pointer-events: none; text-align: center; color: #1a2a3a; margin-top: 20px; }
-        .linked-orb:hover .orb-info { opacity: 1; transform: translateX(-50%) translateY(10px); }
-        .orb-line { position: absolute; top: 50%; height: 1px; background: rgba(255, 255, 255, 0.2); z-index: -1; }
+        .orb-network {
+            display: flex;
+            gap: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .linked-orb {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.5s;
+            position: relative;
+        }
+
+        .linked-orb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px rgba(79, 195, 247, 0.6);
+        }
+
+        .orb-info {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            opacity: 0;
+            transition: 0.5s;
+            pointer-events: none;
+            text-align: center;
+            color: #1a2a3a;
+            margin-top: 20px;
+        }
+
+        .linked-orb:hover .orb-info {
+            opacity: 1;
+            transform: translateX(-50%) translateY(10px);
+        }
+
+        .orb-line {
+            position: absolute;
+            top: 50%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: -1;
+        }
 
         /* Hub */
-        .hub-container { width: 800px; max-width: 95vw; padding: 60px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(40px); border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.5); margin: 50px 0; }
-        .section-title { font-family: 'Outfit'; font-size: 2.2rem; color: #1a2a3a; margin-bottom: 30px; border-bottom: 2px solid rgba(79, 195, 247, 0.3); display: inline-block; }
-        .class-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .class-box { padding: 20px; background: rgba(135, 206, 235, 0.1); border-radius: 20px; border: 1px solid rgba(79, 195, 247, 0.2); }
+        .hub-container {
+            width: 800px;
+            max-width: 95vw;
+            padding: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(40px);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin: 50px 0;
+        }
+
+        .section-title {
+            font-family: 'Outfit';
+            font-size: 2.2rem;
+            color: #1a2a3a;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+            display: inline-block;
+        }
+
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .class-box {
+            padding: 20px;
+            background: rgba(135, 206, 235, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(79, 195, 247, 0.2);
+        }
 
         /* Lists */
-        .info-list-modern { list-style: none; width: 100%; margin-top: 30px; }
-        .info-item { margin-bottom: 15px; padding: 15px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .info-list-modern {
+            list-style: none;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .info-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
         /* Decorations */
-        .lens-ring { position: absolute; border-radius: 50%; border: 30px solid rgba(255, 255, 255, 0.03); backdrop-filter: blur(8px); animation: slowOrbit 20s linear infinite; pointer-events: none; }
-        @keyframes slowOrbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .ring-1 { width: 600px; height: 600px; top: -100px; left: -200px; }
-        .ring-2 { width: 400px; height: 400px; bottom: 0; right: -150px; }
-        .scanning-gradient { position: fixed; inset: 0; background: linear-gradient(0deg, transparent, rgba(79, 195, 247, 0.05), transparent); background-size: 100% 200px; animation: scanning 8s linear infinite; pointer-events: none; z-index: 0; }
-        @keyframes scanning { from { background-position: 0 100vh; } to { background-position: 0 -200px; } }
+        .lens-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 30px solid rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            animation: slowOrbit 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes slowOrbit {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .ring-1 {
+            width: 600px;
+            height: 600px;
+            top: -100px;
+            left: -200px;
+        }
+
+        .ring-2 {
+            width: 400px;
+            height: 400px;
+            bottom: 0;
+            right: -150px;
+        }
+
+        .scanning-gradient {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(0deg, transparent, rgba(79, 195, 247, 0.05), transparent);
+            background-size: 100% 200px;
+            animation: scanning 8s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes scanning {
+            from {
+                background-position: 0 100vh;
+            }
+
+            to {
+                background-position: 0 -200px;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="pearl-shimmer"></div>
     <div id="bead-container"></div>
@@ -199,7 +598,6 @@
 
     <header id="main-header">
         <div class="jihyo-title">jihyo</div>
-        <button class="explore-btn" onclick="switchView('info-view')">explore</button>
     </header>
 
     <div id="back-btn-ui" class="back-btn-wrapper">
@@ -211,18 +609,20 @@
         <main class="hero-container">
             <div class="lens-ring ring-1"></div>
             <div class="lens-ring ring-2"></div>
-            
+
             <div id="image-board" class="image-board-wrapper">
                 <div class="hero-name-container">
                     <h1 class="hero-main-title">YOON JIHYO</h1>
                 </div>
                 <div class="image-board">
-                    <div style="font-family: 'Outfit'; font-size: 3rem; color: white; opacity: 0.2; letter-spacing: 10px;">PROLOGUE</div>
+                    <div
+                        style="font-family: 'Outfit'; font-size: 3rem; color: white; opacity: 0.2; letter-spacing: 10px;">
+                        PROLOGUE</div>
                 </div>
                 <div class="overlay-buttons">
-                    <button class="convex-glass-btn" onclick="switchView('info-view')">Connect</button>
-                    <button class="convex-glass-btn" onclick="switchView('hobbies-view')">Discover</button>
-                    <button class="convex-glass-btn" onclick="switchView('classes-view')">Create</button>
+                    <button class="convex-glass-btn" onclick="switchView('info-view')">profile</button>
+                    <button class="convex-glass-btn" onclick="switchView('hobbies-view')">hobby</button>
+                    <button class="convex-glass-btn" onclick="switchView('ai-class-view')">Ai 수업</button>
                 </div>
             </div>
         </main>
@@ -230,13 +630,32 @@
         <section id="paint-screen" class="paint-canvas-section">
             <div class="translucent-canvas">
                 <div class="paint-title">Transparent Paint Canvas</div>
-                <button class="paint-blob" onclick="switchView('hub-view')"></button>
-                <button class="paint-blob" onclick="window.location.href='HaliGalli.html'"></button>
-                <button class="paint-blob" onclick="switchView('hub-view')"></button>
-                <button class="paint-blob" onclick="switchView('hub-view')"></button>
-                <button class="paint-blob" onclick="switchView('hub-view')"></button>
-                <button class="paint-blob" onclick="switchView('hub-view')"></button>
-                <button class="paint-blob" onclick="switchView('hub-view')"></button>
+
+                <div class="blob-wrapper">
+                    <div class="blob-label">프로필</div>
+                    <button class="paint-blob" onclick="switchView('hub-view')"></button>
+                </div>
+
+                <div class="blob-wrapper">
+                    <div class="blob-label">할리갈리</div>
+                    <button class="paint-blob" onclick="window.location.href='HaliGalli.html'"></button>
+                </div>
+
+                <div class="blob-wrapper">
+                    <div class="blob-label">brain tests</div>
+                    <button class="paint-blob" onclick="window.location.href='game.html'"></button>
+                </div>
+
+                <div class="blob-wrapper">
+                    <div class="blob-label">웹사이트</div>
+                    <button class="paint-blob" onclick="switchView('website-view')"></button>
+                </div>
+
+
+                <div class="blob-wrapper">
+                    <div class="blob-label">상세 1</div>
+                    <button class="paint-blob" onclick="switchView('profile-detail-1-view')"></button>
+                </div>
             </div>
         </section>
     </div>
@@ -263,9 +682,18 @@
             <div class="ink-dispersion"></div>
             <h1 style="font-family:'Outfit'; font-size:3rem; margin-bottom:50px; color:#1a2a3a;">나의 취미</h1>
             <div style="display: flex; gap: 40px; position: relative; z-index: 5;">
-                <div style="flex:1;"><h3>유리</h3><p>영롱한 얼음 빛</p></div>
-                <div style="flex:1;"><h3>물감</h3><p>아쿠아 잉크 번짐</p></div>
-                <div style="flex:1;"><h3>그림</h3><p>정교한 스케치</p></div>
+                <div style="flex:1;">
+                    <h3>유리</h3>
+                    <p>영롱한 얼음 빛</p>
+                </div>
+                <div style="flex:1;">
+                    <h3>물감</h3>
+                    <p>아쿠아 잉크 번짐</p>
+                </div>
+                <div style="flex:1;">
+                    <h3>그림</h3>
+                    <p>정교한 스케치</p>
+                </div>
             </div>
         </main>
     </div>
@@ -274,9 +702,12 @@
     <div id="classes-view" class="page-view">
         <h1 style="font-family:'Outfit'; font-size:2.5rem; margin-bottom:80px; color:#1a2a3a;">나의 AI 수업</h1>
         <div class="orb-network" id="orb-net">
-            <div class="linked-orb">Gemini<div class="orb-info">아이디어 시각화 캔버스</div></div>
-            <div class="linked-orb">NotebookLM<div class="orb-info">스마트 정보 정리 AI</div></div>
-            <div class="linked-orb">Antigravity<div class="orb-info">마법의 웹 코딩 환경</div></div>
+            <div class="linked-orb">Gemini<div class="orb-info">아이디어 시각화 캔버스</div>
+            </div>
+            <div class="linked-orb">NotebookLM<div class="orb-info">스마트 정보 정리 AI</div>
+            </div>
+            <div class="linked-orb">Antigravity<div class="orb-info">마법의 웹 코딩 환경</div>
+            </div>
         </div>
     </div>
 
@@ -290,9 +721,67 @@
             </div>
             <h2 class="section-title">AI Classes</h2>
             <div class="class-grid">
-                <div class="class-box"><h3>Gemini</h3><p>AI 예술 시각화 교육</p></div>
-                <div class="class-box"><h3>NotebookLM</h3><p>지식 분석 및 정리</p></div>
-                <div class="class-box"><h3>Developing</h3><p>Antigravity 코딩 학습</p></div>
+                <div class="class-box">
+                    <h3>Gemini</h3>
+                    <p>AI 예술 시각화 교육</p>
+                </div>
+                <div class="class-box">
+                    <h3>NotebookLM</h3>
+                    <p>지식 분석 및 정리</p>
+                </div>
+                <div class="class-box">
+                    <h3>Developing</h3>
+                    <p>Antigravity 코딩 학습</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 6. WEBSITE VIEW -->
+    <div id="website-view" class="page-view">
+        <main class="hub-container" style="text-align: center;">
+            <h1 class="glass-text-3d" style="font-size: 3rem; margin-bottom: 30px;">지금 이 웹사이트</h1>
+            <button class="convex-glass-btn" style="padding: 15px 30px; font-size: 1.2rem; max-width: 300px;"
+                onclick="switchView('home-view')">첫번째 페이지로 돌아가기</button>
+        </main>
+    </div>
+
+    <!-- 7. AI CLASS VIEW -->
+    <div id="ai-class-view" class="page-view" style="overflow-y: auto;">
+        <main class="hub-container"
+            style="background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 50px rgba(79, 195, 247, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.5); border: 2px solid rgba(79, 195, 247, 0.6);">
+            <h1 class="glass-text-3d"
+                style="font-size: 3rem; margin-bottom: 40px; text-align: center; text-shadow: 0 0 20px rgba(79, 195, 247, 0.8);">
+                나의 AI 수업</h1>
+            <div class="glowing-class-grid">
+                <div class="glowing-box">
+                    <h3 class="glowing-title">✨ GEMINI 이용</h3>
+                    <p>프롬프트를 통해 아이디어를 구체화하고, 프로젝트의 전반적인 구조와 디자인 컨셉을 기획합니다. 창의적인 아이디어를 시각화하는데 적극 활용하고 있습니다.</p>
+                </div>
+                <div class="glowing-box">
+                    <h3 class="glowing-title">✨ Notebook LM 이용</h3>
+                    <p>방대한 양의 문서를 분석하고 필요한 지식을 체계적으로 정리하여 학습 효율을 극대화합니다. 복잡한 개념을 빠르고 명확하게 이해하도록 돕습니다.</p>
+                </div>
+                <div class="glowing-box">
+                    <h3 class="glowing-title">✨ ANTIGRAVITY 이용</h3>
+                    <p>AI 에이전트와 함께 실제 코드를 작성하고 수정하며 웹 개발의 전 과정을 실습합니다. 마법 같은 에이전트 코딩 환경에서 상상한 아이디어를 현실의 웹사이트로 만듭니다.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 8. PROFILE DETAIL 1 -->
+    <div id="profile-detail-1-view" class="page-view">
+        <main class="hub-container">
+            <h2 class="section-title">웹사이트 소개</h2>
+            <div
+                style="background:rgba(255,255,255,0.2); padding:40px; border-radius:30px; margin-bottom:40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <h1 class="glass-text-3d" style="font-size:2.5rem; color: #1a2a3a;">안녕하세요, 윤지효입니다.</h1>
+                <p style="margin-top: 30px; font-size: 1.2rem; line-height: 1.8; color: #333;">
+                    이 웹사이트는 저의 다양한 관심사와 취미, 그리고 인공지능 수업을 통해 배운 내용을 시각적으로 표현한 공간입니다.<br><br>
+                    투명하고 반짝이는 디자인 요소들을 통해 저만의 개성을 담았으며, 각 버튼을 클릭하면 저의 여러 작업물과 이야기들을 만나보실 수 있습니다.<br><br>
+                    천천히 둘러보시면서 저의 세계를 즐겁게 경험해 보세요!
+                </p>
             </div>
         </main>
     </div>
@@ -303,7 +792,7 @@
             initIridescentBeads();
             initCanvasTriggers();
             initOrbLines();
-            
+
             setTimeout(() => {
                 document.getElementById('image-board').classList.add('visible');
             }, 1000);
@@ -327,7 +816,7 @@
             if (viewId === 'home-view') {
                 header.style.display = 'flex';
                 backBtn.style.display = 'none';
-                document.documentElement.style.overflowY = 'auto'; // Re-enable snap scroll
+                document.documentElement.style.overflowY = ''; // Re-enable snap scroll
             } else {
                 header.style.display = 'none';
                 backBtn.style.display = 'block';
@@ -375,14 +864,15 @@
         function initOrbLines() {
             const net = document.getElementById('orb-net');
             const orbs = net.querySelectorAll('.linked-orb');
-            for(let i=0; i<orbs.length-1; i++) {
+            for (let i = 0; i < orbs.length - 1; i++) {
                 const line = document.createElement('div');
                 line.className = 'orb-line';
                 line.style.width = '40px';
-                line.style.left = `calc(${i*180 + 140}px)`;
+                line.style.left = `calc(${i * 180 + 140}px)`;
                 net.appendChild(line);
             }
         }
     </script>
 </body>
+
 </html>
